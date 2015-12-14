@@ -19,9 +19,17 @@ SpaceHipster.MainMenu = {
 		var h = this.game.add.text(this.game.width/2, this.game.height/2 + 50, text, style);
 		h.anchor.set(0.5);
 	},
+
 	update: function() {
 		if(this.game.input.activePointer.justPressed()) {
 			this.game.state.start('Game');
 		}
+	},
+
+	init: function(score) {
+		var score = score || 0;
+		this.highestScore = this.highestScore || 0;
+
+		this.highestScore = Math.max(score, this.highestScore);
 	}
 };

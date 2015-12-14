@@ -21,7 +21,10 @@ SpaceHipster.Game = {
 
 		this.game.physics.arcade.collide(this.player, this.asteroids, null, this);
 
+		this.generateCollectables();
 		this.generateAsteroids();
+
+		this.showLabels();
 	},
 
 	update: function() {
@@ -31,6 +34,22 @@ SpaceHipster.Game = {
 
 		this.game.camera.follow(this.player);
 		this.game.physics.arcade.collide(this.player, this.asteroids, this.hitAsteroid, null, this);
+
+		this.game.physics.arcade.overlap(this.player, this.collectables, this.collect, null, this);
+	},
+
+	showLabels: function() {
+		var text = "0";
+		var style = {font: "20px Arial", fill: "#fff", align: "center"};
+		this.scoreLabel = this.game.add.text(this.game.width - 50, this.game.height - 50, text, style);
+		this.scoreLabel.fixedToCamera = true;
+	},
+
+	collect: function(player, collectable) {
+		this.collectSound.play();
+		this.playerScore++;
+		this.scoreLabel.text = this.playerScore;
+		collectable.kill();
 	},
 
 	hitAsteroid: function(player, asteroid) {
@@ -45,6 +64,22 @@ SpaceHipster.Game = {
 
 		this.player.kill();
 		this.game.time.events.add(3800, this.gameOver, this);
+	},
+
+	generateCollectables: function() {
+		this.collectables = this.game.add.group();
+		this.collectables.enableBody = true;
+		this.collectables.physicsBodyType = Phaser.Physics.ARCADE;
+
+		var numCollectables = this.game.rnd.integerInRange(10, 30);
+		var collectable;
+
+		for (var i = 0; i < numCollectables; i++) {
+			collectable = this.collectables.create(this.game.world.randomX, this.game.world.randomY, 'power');
+			collectable.animations.add('fly', [0, 1, 2, 3], 5, true);
+			collectable.animations.play('fly');
+		}
+
 	},
 
 	generateAsteroids: function() {
