@@ -1,0 +1,7 @@
+{
+  "name": "phaser-spacehipster-tutorial",
+  "private": true,
+  "dependencies": {
+    "phaser": "~2.4.4"
+  }
+}
