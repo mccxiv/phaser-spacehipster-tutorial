@@ -27,7 +27,7 @@ SpaceHipster.MainMenu = {
 	},
 
 	init: function(score) {
-		var score = score || 0;
+		score = score || 0;
 		this.highestScore = this.highestScore || 0;
 
 		this.highestScore = Math.max(score, this.highestScore);
